@@ -26,7 +26,7 @@ export const Content = styled.div`
       filter: brightness(0.9);
     }
   }
-  @media (max-width: 1024px) {
+  @media (max-width: 1023px) {
     display: flex;
     flex-direction: column;
     gap: 2rem;
