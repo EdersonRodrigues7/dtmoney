@@ -1,40 +1,28 @@
-import { useTransactions } from "../../hooks/useTransactions";
-
-import { Container } from "./styles";
+import { useTransactions } from '../../hooks/useTransactions';
+import { TransactionCard } from '../TransactionCard';
+import { Container } from './styles';
 
 export function TransactionsTable() {
-    const { transactions } = useTransactions();
+  const { transactions } = useTransactions();
 
-    return(
-        <Container>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Preço</th>
-                        <th>Categoria</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {transactions.map(transaction => {
-                        return (
-                            <tr key={transaction.id}>
-                                <td>{transaction.title}</td>
-                                <td className={transaction.type} >{new Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(transaction.amount)} </td>
-                                <td>{transaction.category}</td>
-                                <td>{
-                                new Intl.DateTimeFormat('pt-BR')
-                                .format(new Date(transaction.createdAt))}
-                                </td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
-        </Container>
-    );
+  return (
+    <Container>
+      <h1>Resumo de Transações</h1>
+      <div className="table">
+        {transactions.map(transaction => {
+          return (
+            <TransactionCard
+              key={transaction.id}
+              id={transaction.id}
+              title={transaction.title}
+              type={transaction.type}
+              category={transaction.category}
+              amount={transaction.amount}
+              createdAt={transaction.createdAt}
+            />
+          );
+        })}
+      </div>
+    </Container>
+  );
 }
