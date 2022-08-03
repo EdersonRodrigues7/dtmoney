@@ -1,35 +1,27 @@
-import { useState } from 'react';
 import Modal from 'react-modal';
-import { TransactionsProvider } from './hooks/useTransactions';
-import { Dashboard } from "./components/Dashboard";
-import { Header } from "./components/Header";
-import { NewTransactionModal } from './components/NewTransactionModal';
-import { GlobalStyle } from "./styles/global";
+import { Route, Routes } from 'react-router-dom';
+import { RequireAuth } from './contexts/Auth/RequireAuth';
+import { Home } from './pages/Home';
+import { LoginPage } from './pages/LoginPage';
+import { Register } from './pages/Register';
+import { TransactionsPage } from './pages/TransactionsPage';
 
 Modal.setAppElement('#root');
 
 export function App() {
-
-  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
-
-    function handleOpenNewTransactionModal(){
-        setIsNewTransactionModalOpen(true)
-    }
-
-    function handleCloseNewTransactionModal(){
-        setIsNewTransactionModalOpen(false)
-    }
-
   return (
-    <TransactionsProvider >
-      <GlobalStyle/>
-      <Header 
-      onOpenNewTransactionModal={handleOpenNewTransactionModal}/>
-      <Dashboard />
-      <NewTransactionModal 
-      isOpen={isNewTransactionModalOpen}
-      onRequestClose={handleCloseNewTransactionModal}
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/transactions"
+        element={
+          <RequireAuth>
+            <TransactionsPage />
+          </RequireAuth>
+        }
       />
-    </TransactionsProvider>
+    </Routes>
   );
 }
